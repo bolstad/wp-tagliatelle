@@ -11,6 +11,16 @@ A PHP-class for easy tagging of wordpress objects.
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
 
+== Description ==
+
+Load the plugin and use the class for easy tagging:
+
+ $hottie = new Tagliatelle; 
+
+ $hottie->write_tags($post->ID,\'kers\');
+ $hottie->write_tags($post->ID,\'tag1, tag2, tag3\');
+
+
 == Changelog ==
 
 1.0 Initial release<span style=\"white-space: pre;\"> </span>
