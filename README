@@ -13,12 +13,19 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 == Description ==
 
-Load the plugin and use the class for easy tagging:
+Load the plugin and use the class for easy tagging. If a referenced tag not already exist, it is created automagicly. 
 
+ // Create a Tagliatelle object
  $hottie = new Tagliatelle; 
 
+ // Use it to tag the current post with the tag 'kers' 
  $hottie->write_tags($post->ID,\'kers\');
+
+ // If you want to, you can pass a comma separated list with tags. 
  $hottie->write_tags($post->ID,\'tag1, tag2, tag3\');
+
+ // It it of course possible to use / create tags in any taxonomy: 
+ $hottie->write_tags($post->ID,\'green, blue, red\','supercolortaxonmy');
 
 
 == Changelog ==
