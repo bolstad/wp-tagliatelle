@@ -6,9 +6,9 @@
 /*
 Plugin Name: Tagliatelle
 Plugin URI: http://kracked.com/wordpress-plugins/tagliatelle/
-Description: A PHP-class for easy tagging of wordpress objects.
+Description: Tagliatelle is a a PHP-class for easy tagging of wordpress objects.
 Version: 1.0
-Author URI: http://christianbolstad.se/
+Author URI: http://christianbolstad.com/
 */
 
 class Tagliatelle
