@@ -12,16 +12,7 @@ Author URI: http://christianbolstad.se/
 */
 
 class Tagliatelle
-{
-  
-  public $debug = 0;
-  
-  function debugmsg($str)
-  {
-    if ($this->debug) echo "$str<br>\n"; 
-  }
-  
-  
+{  
   function find_tagged_post($tag, $value,$post_type = 'post')
   {
       $superid = null;
@@ -43,61 +34,30 @@ class Tagliatelle
           $rs = wp_get_object_terms($postid, 'post_tag');
           foreach ($rs as $item) {
               if ($termid == $item->term_id) {
-                  $this->debugmsg("Tag '$tag' ($termid) is already connected to Page $postid");
                   return true;
               }
           }
       } else {
-          $this->debugmsg("taggen '$tag' finns inte");
           return false;
       }
   }
   
-  function write_tags($id, $tags, $taxonomy = 'post_tag')
+function write_tags($id, $tags, $taxonomy = 'post_tag')
   {
       $tags = explode(',', $tags);
       foreach ($tags as $solotag) {
           $solotag = trim($solotag);
-          if ($this->debug) $this->debugmsg("Solotag $solotag <br>\n");
-          if ($this->tagConnected($solotag, $id)) {
-              $this->debugmsg("- PASSIVE: '$solotag' is already connected with '$id'");
-          } else {
-              $this->debugmsg("- ACTIVE: '$solotag' is NOT already connected with '$id'");
-              $this->debugmsg("  Testar $solotag<br>");
+          if (!$this->tagConnected($solotag, $id)) 
+          {   // $id is not tagged with $solotag
               $check = is_term($solotag, $taxonomy);
               if (is_null($check)) {
-                  $this->debugmsg("  '$solotag' finns inte som solotag'");;
                   $tag = wp_insert_term($solotag, $taxonomy);
-                  if (!is_wp_error($tag)) {
-                      $tagid = $tag['term_id'];
-                      $this->debugmsg("  Lyckades stoppa in '$solotag' som en tag med id  '$tagid'");
-                  } else {
-                      //$tagid = $check['term_id'];
-                      $this->debugmsg("error BEEP BEEP - could not create the tag '$tag'");
-                      $this->debugmsg(print_r($check),1);
-                  }
-                  $this->debugmsg("$tagid");
-              } else {
-                  $tagid = $check['term_id'];
-                  $this->debugmsg("  '$solotag' finns redan som tag med id   '$tagid'");
-              }
-              
-              $this->debugmsg("Tagid: '$tagid' '$taxonomy'");
-              $this->debugmsg("Taggar ihop objekt '$id' med tag '$tagid' med taxonomy '$taxonomy'");
-              $blah = array($solotag);
-              
-              $this->debugmsg(print_r($blah,1));
+                  if (!is_wp_error($tag)) {  $tagid = $tag['term_id'];          } 
+              } else { $tagid = $check['term_id'];   }              
+              $blah = array($solotag);              
               $ret = wp_set_object_terms($id, $blah, $taxonomy, true);
-              if (is_wp_error($ret)) {
-                  $this->debugmsg("ERRROR: " . $return ->get_error_message());;
-                  $this->debugmsg(print_r($ret),1);
-              } else {
-                  $this->debugmsg("OK?");
-                  $this->debugmsg(print_r($ret),1);
-              }
           }
       }
-  }
-  
+  }  
 }
 ?>
