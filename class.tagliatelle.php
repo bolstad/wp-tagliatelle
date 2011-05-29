@@ -6,7 +6,7 @@
 /*
 Plugin Name: Tagliatelle
 Plugin URI: http://kracked.com/wordpress-plugins/tagliatelle/
-Description: A class for easy tagging of wordpress objects 
+Description: A PHP-class for easy tagging of wordpress objects.
 Version: 1.0
 Author URI: http://christianbolstad.se/
 */
@@ -27,11 +27,11 @@ class Tagliatelle
       return $superid;
   }
   
-  function tagConnected($tag, $postid)
+  function tag_connected($tag, $postid,$taxonomy)
   {
-      if ($check = is_term($tag, 'post_tag')) {
+      if ($check = is_term($tag, $taxonomy)) {
           $termid = $check['term_id'];
-          $rs = wp_get_object_terms($postid, 'post_tag');
+          $rs = wp_get_object_terms($postid, $taxonomy);
           foreach ($rs as $item) {
               if ($termid == $item->term_id) {
                   return true;
@@ -47,7 +47,7 @@ function write_tags($id, $tags, $taxonomy = 'post_tag')
       $tags = explode(',', $tags);
       foreach ($tags as $solotag) {
           $solotag = trim($solotag);
-          if (!$this->tagConnected($solotag, $id)) 
+          if (!$this->tag_connected($solotag, $id,$taxonomy)) 
           {   // $id is not tagged with $solotag
               $check = is_term($solotag, $taxonomy);
               if (is_null($check)) {
