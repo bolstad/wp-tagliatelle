@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Tagliatelle
- * @version 1.0.2
+ * @version 1.0.3
  * @author Christian Bolstad
  */
 /*
 Plugin Name: Tagliatelle
 Plugin URI: http://kracked.com/wordpress-plugins/tagliatelle/
 Description: Tagliatelle is a a PHP-class for easy tagging of wordpress objects.
-Version: 1.0.2
+Version: 1.0.3
 Author URI: http://christianbolstad.com/
 Author: Christian Bolstad
 */
@@ -43,12 +43,10 @@ class Tagliatelle
           return false;
       }
   }
-  
-function write_tags($id, $tags, $taxonomy = 'post_tag')
-  {
-      $tags = explode(',', $tags);
-      foreach ($tags as $solotag) {
-          $solotag = trim($solotag);
+
+function write_tag($id, $solotag, $taxonomy = 'post_tag')
+{
+  $solotag = trim($solotag);
           if (!$this->tag_connected($solotag, $id,$taxonomy)) 
           {   // $id is not tagged with $solotag
               $check = is_term($solotag, $taxonomy);
@@ -60,6 +58,15 @@ function write_tags($id, $tags, $taxonomy = 'post_tag')
               $ret = wp_set_object_terms($id, $blah, $taxonomy, true);
           }
       }
-  }  
+
+}
+  
+function write_tags($id, $tags, $taxonomy = 'post_tag')
+  {
+      $tags = explode(',', $tags);
+      foreach ($tags as $solotag) 
+      {
+          write_tag($id, $solotag, $taxonomy);
+      }  
 }
 ?>
